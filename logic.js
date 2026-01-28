@@ -1,5 +1,5 @@
 async function fetchPokemon(pokemon)
-{10
+{
     try 
     {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/` + pokemon);
@@ -8,7 +8,14 @@ async function fetchPokemon(pokemon)
             throw new Error("Error! Status: " + response.status);
         }
         const data = await response.json();
-        return data;
+        
+        const sanitizedData = {
+            name: data.name,
+            id: data.id,
+            baseExperience: data.base_experience,
+            primaryAbility: data.abilities[0].ability.name
+        };
+        return sanitizedData;
     } 
     catch(error)
     {
