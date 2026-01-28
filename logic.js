@@ -2,13 +2,17 @@ async function fetchPokemon(pokemon)
 {
     try 
     {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/` + pokemon);
+        const url = new URL(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
+
+        url.searchParams.set('limit', '10');
+        const response = await fetch(url.toString());
+
         if(!response.ok)
         {
             throw new Error("Error! Status: " + response.status);
         }
         const data = await response.json();
-        
+
         const sanitizedData = {
             name: data.name,
             id: data.id,
